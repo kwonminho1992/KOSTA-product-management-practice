@@ -8,17 +8,17 @@ import com.my.exception.AddException;
  * @author kwonminho
  *
  */
-public class ProductRepository {
+public class ProductRepositoryByArray {
 	//field
 	private Product[] products; //repository
 	private int count; //number of products registered in repository
 
 	//constructor1 - can deposit n products 
-	public ProductRepository(int n) {
+	public ProductRepositoryByArray(int n) {
 		this.products = new Product[n];
 	}
 	//constructor2 - default value : 5 (can deposit 5 products)
-	public ProductRepository() {
+	public ProductRepositoryByArray() {
 		this.products = new Product[5];
 	}
 

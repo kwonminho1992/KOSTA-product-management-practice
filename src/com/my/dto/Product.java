@@ -1,6 +1,7 @@
 package com.my.dto;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Object of project
@@ -21,6 +22,8 @@ public class Product {
 	private String productInfo;
 	private Date productMfd;
 	// constructor
+	public Product() { // default constructor
+	}	
 	public Product(String productNo, String productName, int productPrice) { // 3 constructors
 		this (productNo, productName, productPrice, null, null);
 	}	
@@ -38,6 +41,41 @@ public class Product {
 		this.productMfd = productMfd;
 	}
 	
+	@Override
+	public String toString() {
+		if (productInfo == null && productMfd == null) { // there is no productInfo & productMfd
+			return "[productNo=" + productNo + ", productName=" + productName + ", productPrice=" + productPrice
+					+ "]";
+		} else {
+			if (productInfo == null) { // there is no productInfo
+				return "[productNo=" + productNo + ", productName=" + productName + ", productPrice=" + productPrice
+						 + ", productMfd=" + productMfd + "]";
+			} else if (productMfd == null) { // there is no productMfd
+				return "[productNo=" + productNo + ", productName=" + productName + ", productPrice=" + productPrice
+						+ ", productInfo=" + productInfo + "]";
+			} else { // all field has value
+				return "[productNo=" + productNo + ", productName=" + productName + ", productPrice=" + productPrice
+						+ ", productInfo=" + productInfo + ", productMfd=" + productMfd + "]";
+			}
+		}		
+	}
+	
+	@Override
+	public int hashCode() { // return hash code of productNo
+		return Objects.hash(productNo);
+	}
+	@Override
+	public boolean equals(Object obj) { // check productNo overlaps or not
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return Objects.equals(productNo, other.productNo);
+	}
+	
 	/**
 	 *  method to print information of the product
 	 */
@@ -45,5 +83,46 @@ public class Product {
 		System.out.println("상품번호 : " + this.productNo + ", 상품명 : " + this.productName + 
 				", 가격 : " + this.productPrice + ", 상세정보 : " + this.productInfo +
 				", 제조일자 : " + this.productMfd);
+	}
+	
+	/**
+	 * get productNo's value
+	 * @return productNo 
+	 */
+	public String getProductNo() {
+		return productNo;
+	}
+	
+	/**
+	 * set productNo's value by user's argument input
+	 * @param productNo 
+	 */
+	public void setProductNo(String productNo) {
+		this.productNo = productNo;
+	}
+	
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public int getProductPrice() {
+		return productPrice;
+	}
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
+	}
+	public String getProductInfo() {
+		return productInfo;
+	}
+	public void setProductInfo(String productInfo) {
+		this.productInfo = productInfo;
+	}
+	public Date getProductMfd() {
+		return productMfd;
+	}
+	public void setProductMfd(Date productMfd) {
+		this.productMfd = productMfd;
 	}
 }
