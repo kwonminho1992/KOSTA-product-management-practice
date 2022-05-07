@@ -6,6 +6,7 @@ import java.util.List;
 import com.my.dto.Product;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
+import com.my.exception.ModifyException;
 
 public class ProductListRepository {
 	//field
@@ -24,18 +25,44 @@ public class ProductListRepository {
 	 * @param product
 	 */
 	public void insert(Product product) throws AddException {
-		int i = 0;
-		for (; i < this.products.size(); i++) {
-			if (product.equals(this.products.get(i))) {
-				break;
-			}
-		}
-		if (i == this.products.size()) {
+		String productNo = product.getProductNo();
+		String productName = product.getProductName();
+		int productPrice = product.getProductPrice();
+		//assess input rule		
+		boolean assessResult = assessInputRule(product, productNo, productName, productPrice);
+		if (assessResult == true) { //insert product
 			products.add(product);
-		} else {
-			throw new AddException("You can't deposit "
-					+ "[productNo='" + product.getProductNo() + "']. the product already exists.");
 		}
+	}
+	
+	/**
+	 * modify product of the repository
+	 * @param Product product, String modifiedProductNo, String modifiedProductName, int modifiedProductPrice
+	 */
+	public void modify(Product product, String modifiedProductNo, String modifiedProductName, int modifiedProductPrice) throws AddException {
+
+		//assess input rule		
+		boolean assessResult = assessInputRule(product, modifiedProductNo, modifiedProductName, modifiedProductPrice);
+		if (assessResult == true) { //modify product
+			product.setProductNo(modifiedProductNo);
+			product.setProductName(modifiedProductName);
+			product.setProductPrice(modifiedProductPrice);
+		}		
+	}
+	
+	/**
+	 * modify product of the repository
+	 * @param Product product, String modifiedProductName, int modifiedProductPrice
+	 */
+	public void modify(Product product, String modifiedProductName, int modifiedProductPrice) throws AddException {
+
+		//assess input rule		
+		String modifiedProductNo = "FFFFF"; //temporary productNo 
+		boolean assessResult = assessInputRule(product, modifiedProductNo, modifiedProductName, modifiedProductPrice);
+		if (assessResult == true) { //modify product
+			product.setProductName(modifiedProductName);
+			product.setProductPrice(modifiedProductPrice);
+		}		
 	}
 	
 	/**
@@ -43,7 +70,7 @@ public class ProductListRepository {
 	 */
 	public List<Product> selectAll() throws FindException {
 		if (products.size() == 0) {  // if no product is deposited, occur FindException
-			throw new FindException("There is no product in repository.");
+			throw new FindException("FindException : There is no product in repository.");
 		} else { // if there is at least 1 product, return products
 			return products;
 		}
@@ -67,7 +94,32 @@ public class ProductListRepository {
 				return products.get(i);
 			}
 		}
-		throw new FindException("productNo ['" + productNo + "'] cannot be found in repository.");
+		throw new FindException("FindException : productNo ['" + productNo + "'] cannot be found in repository.");
 	}
+	
+	// input assess when add or modify product
+	private boolean assessInputRule (Product product, String productNo, String productName, int productPrice) throws AddException{
+		int i = 0;
+		if (productNo.equals("") || productName.equals("")) { // not allow blank of productNo, productName
+			throw new AddException("AddException : productNo and productName should not be blank");
+		} else if (!((int) productNo.charAt(i) == 68) && !((int) productNo.charAt(i) == 70) && !((int) productNo.charAt(i) == 71)) { // productNo should start with D, F or G
+			throw new AddException("AddException : productNo should start with D, F or G");
+		} else if (productPrice <= 0) { // not allow productPrice == 0 or minus number
+			throw new AddException("AddException : productPrice should be at least 1. Not allowed 0 and minus");
+		} else { //if pass input rule assess, proceed duplication assess
+			for (; i < this.products.size(); i++) { // duplication assess
+				if (productNo.equals(this.products.get(i).getProductNo())) { // not allow productNo duplication
+					break;
+				}
+			}
+			if (i == this.products.size()) { // if there is no duplication, add products
+				return true;
+			} else {
+				throw new AddException("AddException : You can't deposit "
+						+ "[productNo='" + product.getProductNo() + "']. the product already exists.");
+			}
+		}		
+	}
+
 }	
 

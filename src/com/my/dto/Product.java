@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author kwon minho
  *
  */
-public class Product {
+public class Product{
 	// field
 	private String productNo;
 	private String productName;
