@@ -1,8 +1,5 @@
 package main;
 
-import java.util.List;
-import java.util.Scanner;
-
 import com.my.dto.Product;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
@@ -21,7 +18,6 @@ public class ProductManager {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Scanner scanner = new Scanner(System.in);
 		ProductListRepository repository = new ProductListRepository();
 		ProductManagerConsole managerConsole = new ProductManagerConsole();
 		String opt;
@@ -120,3 +116,5 @@ public class ProductManager {
 
 	}
 }
+
+

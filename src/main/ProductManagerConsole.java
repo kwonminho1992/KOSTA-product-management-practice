@@ -61,6 +61,9 @@ public class ProductManagerConsole {
 //		Object procuctMfdByStr = (Object) productMfdBystr; // type change String -> Date
 //		Date productMfd = (Date) procuctMfdByStr; // type change String -> Date
 		repository.insert(new Product(productNo, productName, productPrice));
+		System.out.println("Successfully added!");
+		System.out.println("ProductNo : " + productNo + " / ProductName : " + productName +
+				" / ProductPrice : " + productPrice);
 	}
 	
 	public void findAll (ProductListRepository repository) throws FindException {
@@ -165,6 +168,8 @@ public class ProductManagerConsole {
 				repository.modify(product, productNo, productName, productPrice);
 			}
 			System.out.println("Successfully modified!");
+			System.out.println("ProductNo : " + product.getProductNo() + " / ProductName : " + product.getProductName() +
+					" / ProductPrice : " + product.getProductPrice());
 		} catch (AddException e) {
 			System.out.println(e.getMessage());
 		}
