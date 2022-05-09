@@ -22,7 +22,7 @@ public class ProductListRepository {
 	
 	/**
 	 * add products into repository
-	 * @param product
+	 * @param Product product
 	 */
 	public void insert(Product product) throws AddException {
 		String productNo = product.getProductNo();
@@ -33,23 +33,7 @@ public class ProductListRepository {
 		if (assessResult == true) { //insert product
 			products.add(product);
 		}
-	}
-	
-	/**
-	 * modify product of the repository
-	 * @param Product product, String modifiedProductNo, String modifiedProductName, int modifiedProductPrice
-	 */
-	public void modify(Product product, String modifiedProductNo, String modifiedProductName, int modifiedProductPrice) throws AddException {
-
-		//assess input rule		
-		boolean assessResult = assessInputRule(product, modifiedProductNo, modifiedProductName, modifiedProductPrice);
-		if (assessResult == true) { //modify product
-			product.setProductNo(modifiedProductNo);
-			product.setProductName(modifiedProductName);
-			product.setProductPrice(modifiedProductPrice);
-		}		
-	}
-	
+	}	
 	/**
 	 * modify product of the repository
 	 * @param Product product, String modifiedProductName, int modifiedProductPrice
@@ -122,4 +106,3 @@ public class ProductListRepository {
 	}
 
 }	
-
