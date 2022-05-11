@@ -1,5 +1,6 @@
 package com.my.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -14,11 +15,11 @@ import java.util.Objects;
  * @author kwon minho
  *
  */
-public class Product{
+public class Product implements Serializable{ // Serializable interface로 객체직렬화 가능
 	// field
 	private String productNo;
 	private String productName;
-	private int productPrice;
+	private int productPrice; // 객체직렬화에서 productPrice 변수는 제외됨
 	private String productInfo;
 	private Date productMfd;
 	// constructor
@@ -76,15 +77,15 @@ public class Product{
 		return Objects.equals(productNo, other.productNo);
 	}
 	
-	/**
-	 *  method to print information of the product
-	 */
-	public void print() {
-		System.out.println("상품번호 : " + this.productNo + ", 상품명 : " + this.productName + 
-				", 가격 : " + this.productPrice + ", 상세정보 : " + this.productInfo +
-				", 제조일자 : " + this.productMfd);
-	}
-	
+//	/**
+//	 *  method to print information of the product
+//	 */
+//	public void print() {
+//		System.out.println("상품번호 : " + this.productNo + ", 상품명 : " + this.productName + 
+//				", 가격 : " + this.productPrice + ", 상세정보 : " + this.productInfo +
+//				", 제조일자 : " + this.productMfd);
+//	}
+//	
 	/**
 	 * get productNo's value
 	 * @return productNo 

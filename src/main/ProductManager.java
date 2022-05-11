@@ -4,6 +4,7 @@ import com.my.dto.Product;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.OptException;
+import com.my.repository.ProductFileRepository;
 import com.my.repository.ProductListRepository;
 
 /**
@@ -18,15 +19,9 @@ public class ProductManager {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		ProductListRepository repository = new ProductListRepository();
+		ProductFileRepository repository = new ProductFileRepository();
 		ProductManagerConsole managerConsole = new ProductManagerConsole();
 		String opt;
-		try {
-			repository.insert(new Product("F0001", "아메리카노1", 1000));
-			repository.insert(new Product("F0002", "아메리카노1", 1000));
-			repository.insert(new Product("D0002", "아메리카노1", 1000));
-		} catch (AddException e) {
-		}
 		while (true) {
 			try {
 				opt = managerConsole.optConsole(); //get user's opt
@@ -37,35 +32,35 @@ public class ProductManager {
 			switch(opt) {
 				case "1": 
 					try {
-						managerConsole.add(repository);
+						managerConsole.add();
 					} catch (AddException e) {
 						System.out.println(e.getMessage());
 					}
 					break;
 				case "2":
 					try {
-						managerConsole.findAll(repository);
+						managerConsole.findAll();
 					} catch (FindException e) {
 						System.out.println(e.getMessage());
 					}
 					break;
 				case "3":
 					try {
-						managerConsole.findByProductNo(repository);
+						managerConsole.findByProductNo();
 					} catch (FindException e) {
 						System.out.println(e.getMessage());
 					}
 					break;
 				case "4":
 					try {
-						managerConsole.findByProductNoOrName(repository);
+						managerConsole.findByProductNoOrName();
 					} catch (FindException e) {
 						System.out.println(e.getMessage());
 					}
 					break;
 				case "5":
 					try {
-						managerConsole.modify(repository);
+						managerConsole.modify();
 					} catch (FindException e) {
 						System.out.println(e.getMessage());
 					} catch (AddException e) {

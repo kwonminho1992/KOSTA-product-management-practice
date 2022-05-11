@@ -1,14 +1,22 @@
 package com.my.repository;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import com.my.dto.Product;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 
-public class ProductListRepository {
+/**
+ * repository in ArrayList type
+ * @author asus
+ *
+ */
+public class ProductListRepository implements ProductRepository {
 	//field
 	private List<Product> products;
 	//constructor
@@ -19,34 +27,14 @@ public class ProductListRepository {
 		products = new ArrayList<>(size);
 	}
 	
-	
-	/**
-	 * add products into repository
-	 * @param Product product
-	 */
-	public void insert(Product product) throws AddException {
-		String productNo = product.getProductNo();
-		String productName = product.getProductName();
-		int productPrice = product.getProductPrice();
-		//assess input rule		
-		boolean assessResult = assessInputRule(product, productNo, productName, productPrice);
-		if (assessResult == true) { //insert product
-			products.add(product);
-		}
-	}	
-	/**
-	 * modify product of the repository
-	 * @param Product product, String modifiedProductName, int modifiedProductPrice
-	 */
-	public void modify(Product product, String modifiedProductName, int modifiedProductPrice) throws AddException {
 
-		//assess input rule		
-		String modifiedProductNo = "FFFFF"; //temporary productNo 
-		boolean assessResult = assessInputRule(product, modifiedProductNo, modifiedProductName, modifiedProductPrice);
-		if (assessResult == true) { //modify product
-			product.setProductName(modifiedProductName);
-			product.setProductPrice(modifiedProductPrice);
-		}		
+	public void insert(Product product) throws AddException {
+		products.add(product);
+	}	
+	
+	public void modify(Product product, String modifiedProductName, int modifiedProductPrice) throws AddException {
+		product.setProductName(modifiedProductName);
+		product.setProductPrice(modifiedProductPrice);
 	}
 	
 	/**
@@ -60,12 +48,6 @@ public class ProductListRepository {
 		}
 	}
 	
-	/**
-	 * print the product's information through user's argument input(productNo)
-	 * @param productNo
-	 * @return product's productNo, productNo, productName, productPrice, productInfo, productMfd;
-	 * @throws FindException
-	 */
 	public Product selectByProductNo(String productNo) throws FindException {		
 		int i = 0;
 //		for (; i < this.products.size(); i++) { 
@@ -81,28 +63,21 @@ public class ProductListRepository {
 		throw new FindException("FindException : productNo ['" + productNo + "'] cannot be found in repository.");
 	}
 	
-	// input assess when add or modify product
-	private boolean assessInputRule (Product product, String productNo, String productName, int productPrice) throws AddException{
+	public List<Product> selectByProductNoOrName(String keyword) throws FindException {		
+		//ProductNo or productName에 키워드가 포함되어있는 상품을 모두 반환
+		List<Product> allSelected = new ArrayList<Product>(); // list to store the products including keyword 
 		int i = 0;
-		if (productNo.equals("") || productName.equals("")) { // not allow blank of productNo, productName
-			throw new AddException("AddException : productNo and productName should not be blank");
-		} else if (!((int) productNo.charAt(i) == 68) && !((int) productNo.charAt(i) == 70) && !((int) productNo.charAt(i) == 71)) { // productNo should start with D, F or G
-			throw new AddException("AddException : productNo should start with D, F or G");
-		} else if (productPrice <= 0) { // not allow productPrice == 0 or minus number
-			throw new AddException("AddException : productPrice should be at least 1. Not allowed 0 and minus");
-		} else { //if pass input rule assess, proceed duplication assess
-			for (; i < this.products.size(); i++) { // duplication assess
-				if (productNo.equals(this.products.get(i).getProductNo())) { // not allow productNo duplication
-					break;
-				}
+		for (; i < products.size(); i++) {
+			String productNo = products.get(i).getProductNo();
+			String productName = products.get(i).getProductName();
+			if (productName.contains(keyword) || productNo.contains(keyword.toUpperCase())) {
+				allSelected.add(products.get(i));
 			}
-			if (i == this.products.size()) { // if there is no duplication, add products
-				return true;
-			} else {
-				throw new AddException("AddException : You can't deposit "
-						+ "[productNo='" + product.getProductNo() + "']. the product already exists.");
-			}
-		}		
-	}
+		}
+		if (i == products.size()) { // 예외발생 : 검색어와 일치하는 상품이 없음
+			throw new FindException("FindException : Cannot find matched productNo in repository.");
+		}
+		return allSelected;	
+	}	
 
 }	
