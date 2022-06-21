@@ -12,7 +12,7 @@ public class MyConnection {
 		// -> ojdbc8.jar �떎�슫濡쒕뱶 & build path濡� �뿰寃�
 		// 2. JDBC �뱶�씪�씠踰� �겢�옒�뒪 濡쒕뱶
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver"); // Oracle driver �뿰寃�
+			Class.forName("oracle.jdbc.driver.OracleDriver"); // Oracle driver 연결
 			System.out.println("Driver와 연결되었습니다");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

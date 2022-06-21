@@ -79,4 +79,44 @@
     <servlet-name>SignupServlet</servlet-name>
     <url-pattern>/signup</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddcartServlet</display-name>
+    <servlet-name>AddcartServlet</servlet-name>
+    <servlet-class>com.my.control.AddcartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddcartServlet</servlet-name>
+    <url-pattern>/addcart</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ViewcartServlet</display-name>
+    <servlet-name>ViewcartServlet</servlet-name>
+    <servlet-class>com.my.control.ViewcartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewcartServlet</servlet-name>
+    <url-pattern>/viewcart</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddorderServlet</display-name>
+    <servlet-name>AddorderServlet</servlet-name>
+    <servlet-class>com.my.control.AddorderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddorderServlet</servlet-name>
+    <url-pattern>/addorder</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>VieworderServlet</display-name>
+    <servlet-name>VieworderServlet</servlet-name>
+    <servlet-class>com.my.control.VieworderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VieworderServlet</servlet-name>
+    <url-pattern>/vieworder</url-pattern>
+  </servlet-mapping>
 </web-app>

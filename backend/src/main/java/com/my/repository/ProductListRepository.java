@@ -21,10 +21,10 @@ public class ProductListRepository implements ProductRepository {
 	private List<Product> products;
 	//constructor
 	public ProductListRepository() {//10개의 index가 제공
-		products = new ArrayList<>();
+		products = new ArrayList<Product>();
 	}
 	public ProductListRepository(int size) {//size개수 만큼의 index가 제공
-		products = new ArrayList<>(size);
+		products = new ArrayList<Product>(size);
 	}
 	
 

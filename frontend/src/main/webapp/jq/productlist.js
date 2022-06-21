@@ -32,15 +32,16 @@ $(function(){
         //form태그의 value를 상품번호로 설정
         $('form[name=product_no]').attr('value', productNo);
         console.log('src : ' + src + ' / arr : ' + arr + ' / productNo : ' + productNo);
-        let url = "viewproduct.html?product_no=" + productNo;
-        $('div.productlist').load(url, function(responseText, statusText, xhr){
-            if (statusText != 'success') {
-                if(xhr.status == 404) {
-					let msg = title + ' 자원을 찾을 수 없습니다.';
-					alert(msg);
-				}
-            }
-        });
+        let url = "/frontend/html/viewproduct.html?product_no=" + productNo;
+        location.href = url;
+        /*
+        var target = 'first'; // 해당 페이지를 중복해서 띄울 수 없게 설정
+        var feature = 'width=550px, height=550px';
+        window.open(url, target, feature);
+		*/
+        
+
+		
     });
     
 });

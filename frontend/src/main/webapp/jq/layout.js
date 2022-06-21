@@ -12,7 +12,8 @@ $(function(){
             let $navObj = $('header>nav');
             let $navObjHtml = '';
             if(jsonObj.status == 1) { // logined
-                $navObjHtml += '<a href="/backend/logout">로그아웃</a>';     
+                $navObjHtml += '<a href="/backend/logout">로그아웃</a>';  
+                $navObjHtml += '<a href="vieworder.html">주문목록</a>';  
             } else { // not logined
                 $navObjHtml += '<a href="login.html">로그인</a>'; 
                 $navObjHtml += '<a href="signup.html">가입</a>'; 

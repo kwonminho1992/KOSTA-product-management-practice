@@ -27,6 +27,7 @@ public class ViewProductServlet extends HttpServlet {
 		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		
+		
 		//1. front濡쒕��꽣 productNo 諛쏄린
 		String productNo = request.getParameter("product_no");
 		System.out.println(productNo);

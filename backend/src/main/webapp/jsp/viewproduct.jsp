@@ -9,7 +9,6 @@
 </head>
 <body>
 <% Product p = (Product)request.getAttribute("p"); %>
-	<jsp:include page="../html/header.html"></jsp:include>	<!-- 서버에서 실행되므로 jsp파일을 기준으로 경로 찾기 -->
 
  	<section>
         <!--본문-->
@@ -34,7 +33,5 @@
 		</article>
 
     </section>
-	<jsp:include page="../html/aside.html"></jsp:include>
-	<jsp:include page="../html/footer.html"></jsp:include>
 </body>
 </html>

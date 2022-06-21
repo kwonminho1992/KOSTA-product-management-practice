@@ -24,7 +24,7 @@ public class ProductOracleRepository implements ProductRepository{
 			throws AddException {
 		// TODO Auto-generated method stub
 		
-	}
+	} 
 
 	public List<Product> selectAll() throws FindException {
 		List<Product> products = new ArrayList<Product>();
@@ -74,7 +74,6 @@ public class ProductOracleRepository implements ProductRepository{
 					System.out.println("productNo : " + productNo);
 					if (rs.next()) {
 						String productName = rs.getString("product_name");
-						System.out.println("productName : " + productName);
 						int productPrice = rs.getInt("product_price");
 						String productInfo = rs.getString("product_info");
 						java.sql.Date productMfd = rs.getDate("product_mfd");
