@@ -49,7 +49,7 @@ $(function(){
                     alert(jsonObj.message);
                     $('nav>a[href="login.html"]').trigger('click');
                 } else if(jsonObj.status == -1) { // order failure
-                    alert(jsonObj.message);xx
+                    alert(jsonObj.message);
                 } 
             },
             error: function(jqXHR){

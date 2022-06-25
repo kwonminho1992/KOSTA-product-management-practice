@@ -31,15 +31,7 @@ public class AddorderServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		OrderRepository repository2 = new OrderOracleRepository();
-		try {
-			repository2.selectById("asd");
-		} catch (FindException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		
+				
 		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		ObjectMapper mapper = new ObjectMapper(); // 객체를 json 형식으로 바꾸기

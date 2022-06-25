@@ -11,6 +11,7 @@
 	<classpathentry kind="lib" path="D:/244/product_management/backend/src/main/webapp/WEB-INF/lib/jackson-annotations-2.13.3.jar"/>
 	<classpathentry kind="lib" path="D:/244/product_management/backend/src/main/webapp/WEB-INF/lib/jackson-core-2.13.3.jar"/>
 	<classpathentry kind="lib" path="D:/244/product_management/backend/src/main/webapp/WEB-INF/lib/jackson-databind-2.13.3.jar"/>
-	<classpathentry kind="lib" path="D:/sw/apache-tomcat-9.0.63/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="E:/sw/apache-tomcat-9.0.63/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="E:/244/lib/ojdbc8.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

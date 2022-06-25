@@ -11,16 +11,6 @@
   </welcome-file-list>
   <servlet>
     <description></description>
-    <display-name>LoginStatusServlet</display-name>
-    <servlet-name>LoginStatusServlet</servlet-name>
-    <servlet-class>com.my.control.LoginStatusServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LoginStatusServlet</servlet-name>
-    <url-pattern>/loginstatus</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
     <display-name>LoginServlet</display-name>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>com.my.control.LoginServlet</servlet-class>
@@ -118,5 +108,25 @@
   <servlet-mapping>
     <servlet-name>VieworderServlet</servlet-name>
     <url-pattern>/vieworder</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AA</display-name>
+    <servlet-name>AA</servlet-name>
+    <servlet-class>com.my.control.AA</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AA</servlet-name>
+    <url-pattern>/AA</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LoginStatusServlet</display-name>
+    <servlet-name>LoginStatusServlet</servlet-name>
+    <servlet-class>com.my.control.LoginStatusServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginStatusServlet</servlet-name>
+    <url-pattern>/loginstatus</url-pattern>
   </servlet-mapping>
 </web-app>

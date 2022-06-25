@@ -46,6 +46,14 @@ $(function(){
 				}
             }
         });
-        return false;
+        return false; 
     }); 
+
+    //trigger
+    $('div.result>button.productlist').click(function(){
+        $('nav>a[href="product_list.html"]').trigger('click');
+    });
+    $('div.result>button.viewcart').click(function(){
+        $('nav>a[href="viewcart.html"]').trigger('click');
+    });
 });

@@ -52,13 +52,6 @@ $(function(){
         return false;
     });
     
-    $('nav>a[href="productlist.html"]').click(function(){
-        location.href = 'productlist.html';
-    });
 
 
-    $('div.result>button.productlist').click(function(){
-        console.log('접근완료');
-        $('nav>a[href="productlist.html"]').trigger('click');
-    });
 });

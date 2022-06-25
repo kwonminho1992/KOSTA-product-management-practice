@@ -19,6 +19,7 @@ public class Test {
 
 	public static void main(String[] args) {
 		OrderRepository repository = new OrderOracleRepository();
+		System.out.println("repository생성");
 		try {
 			List<OrderInfo> list = repository.selectById("asd");
 			System.out.println(list.toString());

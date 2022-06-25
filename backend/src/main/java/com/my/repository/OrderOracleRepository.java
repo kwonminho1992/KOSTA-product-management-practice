@@ -30,6 +30,7 @@ public class OrderOracleRepository implements OrderRepository {
 			con = MyConnection.getConnection();
 			insertInfo(con, info); // 같은 connection안에서 orderinfo, orderline 처리
 			insertLines(con, info.getLines());
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -67,10 +68,7 @@ public class OrderOracleRepository implements OrderRepository {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			con = MyConnection.getConnection();
-			
-
-			
+			con = MyConnection.getConnection();			
 			//order_info 
 			
 			String selectInfoSQL = 
@@ -111,8 +109,33 @@ public class OrderOracleRepository implements OrderRepository {
                     int orderQuantity = Integer.parseInt(listFORAllElementsOfOrderLine.get(2));
                     
                     //product
-                    ProductRepository productrepository = new ProductOracleRepository();
-                    Product product = productrepository.selectByProductNo(productNo);
+                    List<String> listFORAllElementsOfProduct = new ArrayList<String>();
+                    Product product = null;
+                    String selectProductSQL = 
+        					"SELECT * FROM product WHERE product_no= ?";
+        			pstmt = con.prepareStatement(selectProductSQL);
+        			pstmt.setString(1, productNo);
+        			rs = pstmt.executeQuery();
+                    rsmd = rs.getMetaData(); 
+                    while (rs.next()) {
+	                    for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+	                    	String ElementOfProduct = rs.getString(i);
+	                    	listFORAllElementsOfProduct.add(ElementOfProduct);
+	                    }
+                    }
+                    System.out.println("product size" + listFORAllElementsOfProduct.size());
+                    String productName = listFORAllElementsOfProduct.get(1);    
+                    int productPrice = Integer.parseInt(listFORAllElementsOfProduct.get(2));
+                    System.out.println(productName);
+                    System.out.println(productPrice);
+                    String productInfo = listFORAllElementsOfProduct.get(3); 
+                	Date productMfd = null;
+                	try {
+                		productMfd = new SimpleDateFormat("yyyy-mm-dd").parse(listFORAllElementsOfProduct.get(4));
+    				} catch (ParseException e) {
+    				}
+                    product = new Product(productNo, productName, productPrice, productInfo, productMfd);
+                    
                     
                     orderLine = new OrderLine(orderNo, product, orderQuantity);
                     orderLines.add(orderLine);
@@ -121,15 +144,17 @@ public class OrderOracleRepository implements OrderRepository {
             	
                 OrderInfo orderInfo = new OrderInfo(orderNo, orderId, orderDate, orderLines);
                 orderInfos.add(orderInfo);
+                
+                
             }
-            
-            
+            System.out.println("orderInfos : " + orderInfos.toString());
+           
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			MyConnection.close(rs, pstmt, con);
 		}
-		return orderInfos;
+		 return orderInfos;  
 	}
 	
 }
