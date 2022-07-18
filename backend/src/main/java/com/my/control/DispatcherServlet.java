@@ -15,7 +15,7 @@ public class DispatcherServlet extends HttpServlet {
 
   protected void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    response.setContentType("application/json;charset=UTF-8");// 응답 형식 설정 (MIME;encoding)
+    response.setContentType("application/json;charset=UTF-8");
     PrintWriter out = response.getWriter();
     // get current url path
     String servletPath = request.getServletPath();

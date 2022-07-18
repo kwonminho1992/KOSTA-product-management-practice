@@ -9,4 +9,5 @@ public interface CustomerRepository {
 
   public Customer selectByIdAndPassword(String id, String password) throws FindException;
 
+  public Customer selectById(String id) throws FindException;
 }
