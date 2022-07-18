@@ -9,124 +9,25 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+  <!-- servlet url들 처리 -->
   <servlet>
     <description></description>
-    <display-name>LoginServlet</display-name>
-    <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>com.my.control.LoginServlet</servlet-class>
+    <display-name>DispatcherServlet</display-name>
+    <servlet-name>DispatcherServlet</servlet-name>
+    <servlet-class>com.my.control.DispatcherServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LoginServlet</servlet-name>
-    <url-pattern>/login</url-pattern>
+    <servlet-name>DispatcherServlet</servlet-name>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>LogoutServlet</display-name>
-    <servlet-name>LogoutServlet</servlet-name>
-    <servlet-class>com.my.control.LogoutServlet</servlet-class>
-  </servlet>
+    <!-- html, 이미지 파일등의 기본 url들 처리 -->
   <servlet-mapping>
-    <servlet-name>LogoutServlet</servlet-name>
-    <url-pattern>/logout</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>ProductListServlet</display-name>
-    <servlet-name>ProductListServlet</servlet-name>
-    <servlet-class>com.my.control.ProductListServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ProductListServlet</servlet-name>
-    <url-pattern>/productlist</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>ViewProductServlet</display-name>
-    <servlet-name>ViewProductServlet</servlet-name>
-    <servlet-class>com.my.control.ViewProductServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ViewProductServlet</servlet-name>
-    <url-pattern>/viewproduct</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>DuplicationCheckServlet</display-name>
-    <servlet-name>DuplicationCheckServlet</servlet-name>
-    <servlet-class>com.my.control.DuplicationCheckServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>DuplicationCheckServlet</servlet-name>
-    <url-pattern>/duplicationcheck</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>SignupServlet</display-name>
-    <servlet-name>SignupServlet</servlet-name>
-    <servlet-class>com.my.control.SignupServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SignupServlet</servlet-name>
-    <url-pattern>/signup</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>AddcartServlet</display-name>
-    <servlet-name>AddcartServlet</servlet-name>
-    <servlet-class>com.my.control.AddcartServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>AddcartServlet</servlet-name>
-    <url-pattern>/addcart</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>ViewcartServlet</display-name>
-    <servlet-name>ViewcartServlet</servlet-name>
-    <servlet-class>com.my.control.ViewcartServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ViewcartServlet</servlet-name>
-    <url-pattern>/viewcart</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>AddorderServlet</display-name>
-    <servlet-name>AddorderServlet</servlet-name>
-    <servlet-class>com.my.control.AddorderServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>AddorderServlet</servlet-name>
-    <url-pattern>/addorder</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>VieworderServlet</display-name>
-    <servlet-name>VieworderServlet</servlet-name>
-    <servlet-class>com.my.control.VieworderServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>VieworderServlet</servlet-name>
-    <url-pattern>/vieworder</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>AA</display-name>
-    <servlet-name>AA</servlet-name>
-    <servlet-class>com.my.control.AA</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>AA</servlet-name>
-    <url-pattern>/AA</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>LoginStatusServlet</display-name>
-    <servlet-name>LoginStatusServlet</servlet-name>
-    <servlet-class>com.my.control.LoginStatusServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LoginStatusServlet</servlet-name>
-    <url-pattern>/loginstatus</url-pattern>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.jpg</url-pattern>
+    <url-pattern>*.png</url-pattern>
+    <url-pattern>*.gif</url-pattern>
+    <url-pattern>*.html</url-pattern>
+    <url-pattern>*.js</url-pattern>
+    <url-pattern>*.css</url-pattern>
   </servlet-mapping>
 </web-app>
