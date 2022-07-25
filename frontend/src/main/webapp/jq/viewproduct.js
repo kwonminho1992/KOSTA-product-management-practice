@@ -2,18 +2,18 @@ $(function(){
     let queryString = location.search.substring(1);
     console.log(queryString);
     $.ajax({ // 비동기처리
-        url: '/backend/viewproduct',
+        url: `${backPath}/viewproduct`,
         method: 'get',
         data: queryString,
         success: function(jsonObj){
             console.log('status : ' + jsonObj.status);
-            console.log('jsonObj.p.productNo : ' + jsonObj.p.productNo);
+            console.log('jsonObj.product.productNo : ' + jsonObj.product.productNo);
             if(jsonObj.status == 1) {
-                let product_no = jsonObj.p.productNo;
-                let product_name = jsonObj.p.productName;
-                let product_price = jsonObj.p.productPrice;
-                let product_info = jsonObj.p.productInfo;
-                let product_mfd = jsonObj.p.productMfd;
+                let product_no = jsonObj.product.productNo;
+                let product_name = jsonObj.product.productName;
+                let product_price = jsonObj.product.productPrice;
+                let product_info = jsonObj.product.productInfo;
+                let product_mfd = jsonObj.product.productMfd;
                 console.log(product_no);
                 $('div.viewproduct>div.detail ul>li>span.product_no').html(product_no);
                 $('div.viewproduct>div.detail ul>li>span.product_name').html(product_name);
@@ -37,7 +37,7 @@ $(function(){
 
         let $quantity = $('div.viewproduct ul>li>input[name=quantity]').val();
         $.ajax({ // 비동기처리
-            url: '/backend/addcart',
+            url: `${backPath}/addcart`,
             method: 'get',
             data: {"product_no":$product_no, "quantity":$quantity},
             success: function(jsonObj){

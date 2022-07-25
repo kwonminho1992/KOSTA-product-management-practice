@@ -1,5 +1,4 @@
 $(function(){
-	
 	 // id & id 중복확인 show / hide
     let $id = $('input[name=id]');
     let $submitBtn = $('input[type=submit]');
@@ -8,9 +7,9 @@ $(function(){
        $submitBtn.css("display", "none");
     });
     $idDuplicationCheckBtn.click(function(){
-        let url = '/backend/duplicationcheck';
+        let url = `${backPath}/idduplicationcheck`;
        	let data = {id: $id.val()}; // user가 입력한 id value
-        console.log('data : ' + data);
+        console.log('id : ' + $id.val());
         $.ajax({
 			url: url,
 			method: 'post',
@@ -60,7 +59,7 @@ $(function(){
         let $addrValue = $('input[name=addr]').val();
         let $buildingnoValue = $('input[name=buildingno]').val();
         */
-        let url = '/backend/signup';
+        let url = `${backPath}/signup`;
         /*let data = {id: $idValue, 
         			pwd: $pwdValue, 
         			name: $nameValue, 

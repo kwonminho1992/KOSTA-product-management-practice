@@ -3,7 +3,7 @@ $(function(){
     //응답형태
     //{"status":1} : logined - header>nav>a(첫번째)를 로그아웃으로 변경
     //{"status":0} : not logined
-    let url = '/backend/loginstatus';
+    let url = `${backPath}/loginstatus`;
     let method = 'get';
     $.ajax ({ 
         url: url,
@@ -12,7 +12,7 @@ $(function(){
             let $navObj = $('header>nav');
             let $navObjHtml = '';
             if(jsonObj.status == 1) { // logined
-                $navObjHtml += '<a href="/backend/logout">로그아웃</a>';  
+                $navObjHtml += `<a href="${backPath}/logout">로그아웃</a>`;  
                 $navObjHtml += '<a href="vieworder.html">주문목록</a>';  
             } else { // not logined
                 $navObjHtml += '<a href="login.html">로그인</a>'; 

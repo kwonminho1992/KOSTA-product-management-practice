@@ -12,7 +12,7 @@ $(function(){
     // });
     
     $.ajax({
-        url: '/backend/viewcart',
+        url: `${backPath}/viewcart`,
         success: function(jsonObj){
             let $itemObj = $('div.viewcart>div.item');
             $(jsonObj).each(function(index, element){
@@ -40,7 +40,7 @@ $(function(){
     //주문하기 버튼 클릭
     $('div.viewcart>div.add_order>button.order_button').click(function(){
         $.ajax({
-            url:'/backend/addorder',
+            url:`${backPath}/addorder`,
             success:function(jsonObj){
                 if(jsonObj.status == 1) { //order success
                     alert(jsonObj.message);

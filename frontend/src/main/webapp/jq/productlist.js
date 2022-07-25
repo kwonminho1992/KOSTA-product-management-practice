@@ -1,12 +1,12 @@
 $(function(){
     $.ajax({ // 비동기처리
-        url:'/backend/productlist',
+        url:`${backPath}/productlist`,
         success: function(jsonObj){
             //jsonObj = array
             //div.td 객체를 DOM tree에서 찾아서 복사
             //복사한 div.td의 하위객체 중 img 객체의 href 속성의 값 = productNo.jpg, alt 속성의 값 = productName
             let $tdObj = $('div.td');
-            $(jsonObj).each(function(index, item) {
+            $(jsonObj.products).each(function(index, item) {
                 console.log(item.productNo + ":" + item.productName + ":" + item.productPrice);
                 let $copyObj = $tdObj.clone(); // tdObj의 복제본 만들기
                 let $imgObj = $copyObj.find("img");

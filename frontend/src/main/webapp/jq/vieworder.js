@@ -1,7 +1,7 @@
 $(function(){
 	//주문목록 추가
 	 $.ajax({
-        url: '/backend/vieworder',
+        url: `${backPath}/vieworder`,
         success: function(jsonObj){
             if (jsonObj.status == 1) { // 주문이 있는 경우
             	console.log(jsonObj.orderinfos);

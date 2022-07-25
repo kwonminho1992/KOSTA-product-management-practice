@@ -33,36 +33,6 @@ public class CustomerOracleRepository implements CustomerRepository {
     }
   }
 
-  public Customer selectByIdAndPassword(String id, String password) throws FindException {
-    Customer customer = new Customer();
-    Connection con = null;
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
-    String selectSQL = "SELECT * FROM customer WHERE id = ? AND password = ? ";
-    try {
-      con = MyConnection.getConnection();
-      pstmt = con.prepareStatement(selectSQL);
-      pstmt.setString(1, id);
-      pstmt.setString(2, password);
-      rs = pstmt.executeQuery();
-      if (rs.next()) {
-        customer.setId(id);
-        customer.setPassword(password);
-        customer.setName(rs.getString("name"));
-        customer.setAddress(rs.getString("address"));
-        customer.setStatus(rs.getInt("status"));
-        customer.setBuildingno(rs.getInt("buildingno"));
-        return customer;
-      }
-      throw new FindException("고객이 없습니다");
-    } catch (SQLException e) {
-      throw new FindException(e.getMessage());
-    } finally {
-      MyConnection.close(rs, pstmt, con);
-      System.out.println("DB와의 연결이 해제되었습니다.");
-    }
-  }
-
   public Customer selectById(String id) throws FindException {
     Customer customer = new Customer();
     Connection con = null;

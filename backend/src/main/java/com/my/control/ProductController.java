@@ -11,10 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.dto.Product;
 import com.my.exception.FindException;
-import com.my.repository.ProductOracleRepository;
-import com.my.repository.ProductRepository;
+import com.my.service.ProductServlce;
 
 public class ProductController implements Controller {
+
+  private ProductServlce productService;
+
+  public ProductController() {
+    this.productService = new ProductServlce();
+  }
 
   public String execute(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
@@ -29,7 +34,6 @@ public class ProductController implements Controller {
 
   private String productlist(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    ProductRepository productRepository = new ProductOracleRepository();
     response.setContentType("application/json;charset=UTF-8");// 응답 형식 설정 (MIME;encoding)
     ObjectMapper mapper = new ObjectMapper(); // 객체를 json 형식으로 바꾸기
     Map<String, Object> map = new HashMap<String, Object>();
@@ -37,7 +41,7 @@ public class ProductController implements Controller {
     // business logic 호출
     List<Product> products = new ArrayList<Product>();
     try {
-      products = productRepository.selectAll();
+      products = productService.productlist();
       map.put("products", products);
       map.put("status", 1);
       map.put("message", "productlist 가져오기 성공");
@@ -61,14 +65,13 @@ public class ProductController implements Controller {
 
   private String viewProduct(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    ProductRepository productRepository = new ProductOracleRepository();
     response.setContentType("application/json;charset=UTF-8");// 응답 형식 설정 (MIME;encoding)
     ObjectMapper mapper = new ObjectMapper(); // 객체를 json 형식으로 바꾸기
     Map<String, Object> map = new HashMap<String, Object>();
     String productNo = request.getParameter("product_no");
 
     try {
-      Product product = productRepository.selectByProductNo(productNo);
+      Product product = productService.viewproduct(productNokosta);
       map.put("status", 1);
       map.put("message", "viewproduct succeed");
       map.put("product", product);
