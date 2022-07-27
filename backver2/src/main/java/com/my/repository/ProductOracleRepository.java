@@ -3,6 +3,7 @@ package com.my.repository;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.my.dto.Product;
@@ -11,6 +12,7 @@ import com.my.exception.FindException;
 
 @Repository(value = "productRepository")
 public class ProductOracleRepository implements ProductRepository {
+  private Logger logger = Logger.getLogger(this.getClass());
   @Autowired
   private SqlSessionFactory sqlSessionFactory;
 
@@ -64,6 +66,12 @@ public class ProductOracleRepository implements ProductRepository {
   public Product selectByProductNo(String productNo) throws FindException {
     SqlSession session = null;
     try {
+      System.out.println("SYSOUT : prodNo in productoraclerepository selectByProdNo:" + productNo);
+      logger.debug("debug prodNo:" + productNo);
+      logger.info("info prodNo:" + productNo);
+      logger.warn("warn prodNo:" + productNo);
+      logger.error("error prodNo:" + productNo);
+
       session = sqlSessionFactory.openSession(); // Connection과 같은 역할을함
       Product product =
           session.selectOne("com.my.mapper.ProductMapper.selectByProductNo", productNo);

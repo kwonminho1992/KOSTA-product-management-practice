@@ -71,7 +71,7 @@ public class ProductController implements Controller {
     String productNo = request.getParameter("product_no");
 
     try {
-      Product product = productService.viewproduct(productNokosta);
+      Product product = productService.viewproduct(productNo);
       map.put("status", 1);
       map.put("message", "viewproduct succeed");
       map.put("product", product);

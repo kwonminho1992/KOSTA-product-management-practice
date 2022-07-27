@@ -68,7 +68,7 @@
 		</property> 
 		<property
 			name="configLocation"
-			value="classpath:resources/mybatis-config.xml">
+			value="classpath:mybatis-config.xml">
 		</property>
 <!-- 		<property
 			name="mapperLocations"

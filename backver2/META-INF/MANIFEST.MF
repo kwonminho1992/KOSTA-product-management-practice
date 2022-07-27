@@ -10,5 +10,5 @@ Export-Package: com.my.control,
  com.my.exception,
  com.my.repository,
  com.my.service,
- com.my.sql,
- resources
+ com.my.sql
+Require-Bundle: org.junit

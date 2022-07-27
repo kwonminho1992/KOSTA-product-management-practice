@@ -2,6 +2,7 @@ package com.my.dto;
 
 import java.util.Date;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /*
  * 주문기본정보
@@ -9,6 +10,7 @@ import java.util.List;
 public class OrderInfo {
   private int orderNo;
   private String orderId;
+  @JsonFormat(pattern = "yy/MM/dd", timezone = "Asia/Seoul")
   private Date orderDate;
   private List<OrderLine> orderLines; // OrderInfo has an OrderLine relationship
 
