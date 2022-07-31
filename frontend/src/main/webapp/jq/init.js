@@ -1,1 +1,1 @@
-const backPath = "/backend";
+const backPath = "/backboard";

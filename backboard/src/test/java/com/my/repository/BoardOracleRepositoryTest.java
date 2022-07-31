@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import com.my.dto.Board;
 import com.my.exception.AddException;
 import com.my.exception.DeleteException;
@@ -23,7 +22,6 @@ import com.my.exception.ModifyException;
 // Spring 컨테이너용 XML파일 설정
 @ContextConfiguration(
     locations = {"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
-@WebAppConfiguration
 public class BoardOracleRepositoryTest {
   private Logger logger = Logger.getLogger(getClass());
 

@@ -1,8 +1,6 @@
 package com.my.control;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.my.dto.Customer;
+import com.my.dto.ResultBean;
 import com.my.exception.AddException;
 import com.my.exception.FindException;
 import com.my.service.CustomerService;
@@ -24,91 +23,79 @@ public class CustomerController {
 
   @PostMapping(produces = "application/json;charset=UTF-8", value = "signup")
   @ResponseBody
-  public Map<String, Object> signup(@RequestBody Customer customer)
+  public ResultBean<Object> signup(@RequestBody Customer customer)
       throws ServletException, IOException {
-    Map<String, Object> map = new HashMap<String, Object>();
+    ResultBean<Object> resultBean = new ResultBean<Object>();
     try {
       customerService.signup(customer);
-      map.put("status", 1);
-      map.put("message", "signup succeed");
-      System.out.println("성공");
+      resultBean.setStatus(1);
+      resultBean.setMessage("signup secceed");
     } catch (AddException e) {
-      map.put("status", 0);
-      map.put("message", "signup failed.");
-      System.out.println("실패");
+      resultBean.setMessage("signup failed");
       e.printStackTrace();
     } catch (Exception e) {
-      map.put("status", 0);
-      map.put("message", "signup failed.");
-      System.out.println("실패");
+      resultBean.setMessage("signup failed");
       e.printStackTrace();
     }
-    return map;
+    return resultBean;
   }
 
   @PostMapping(produces = "application/json;charset=UTF-8", value = "idduplicationcheck")
   @ResponseBody
-  public Map<String, Object> idDuplicationCheck(
+  public ResultBean<Object> idDuplicationCheck(
       @RequestParam(name = "id", required = true) String id) throws ServletException, IOException {
-    Map<String, Object> map = new HashMap<String, Object>();
+    ResultBean<Object> resultBean = new ResultBean<Object>();
     try {
       Customer customer = customerService.idDuplicationCheck(id);
       if (customer == null && !id.equals("")) {
-        map.put("status", 1);
-        map.put("message", "사용이 가능한 ID입니다.");
+        resultBean.setStatus(1);
+        resultBean.setMessage("Available ID");
       } else {
-        map.put("status", 0);
-        map.put("message", "사용이 불가능한 ID입니다.");
+        resultBean.setMessage("Not available ID");
       }
     } catch (FindException e) {
-      map.put("status", 0);
-      map.put("message", "연결오류. 다시 실행하세요");
+      resultBean.setMessage("Not available ID");
       e.printStackTrace();
     } catch (Exception e) {
-      map.put("status", 0);
-      map.put("message", "연결오류. 다시 실행하세요");
+      resultBean.setMessage("Not available ID");
       e.printStackTrace();
     }
-    return map;
+    return resultBean;
   }
 
   @PostMapping(produces = "application/json;charset=UTF-8", value = "login")
   @ResponseBody
-  public Map<String, Object> login(@RequestParam(name = "id", required = true) String id,
+  public ResultBean<Object> login(@RequestParam(name = "id", required = true) String id,
       @RequestParam(name = "password", required = true) String password, HttpSession session)
       throws ServletException, IOException {
-    Map<String, Object> map = new HashMap<String, Object>();
+    ResultBean<Object> resultBean = new ResultBean<Object>();
 
     System.out.println(id + " / " + password);
     // business logic 호출
     try {
       Customer customer = customerService.login(id, password);
-      map.put("status", 1);
-      map.put("message", "login succeed");
+      resultBean.setStatus(1);
+      resultBean.setMessage("login succeed");
       session.setAttribute("loginInfo", id);
     } catch (FindException e) {
-      map.put("status", 0);
-      map.put("message", "login failed");
+      resultBean.setMessage("login failed");
       e.printStackTrace();
     } catch (Exception e) {
-      map.put("status", 0);
-      map.put("message", "login failed");
+      resultBean.setMessage("login failed");
       e.printStackTrace();
     }
-    return map;
+    return resultBean;
   }
 
   @PostMapping(produces = "application/json;charset=UTF-8", value = "loginstatus")
-  public Map<String, Object> loginStatus(HttpSession session) throws ServletException, IOException {
-    Map<String, Object> map = new HashMap<String, Object>();
+  public ResultBean<Object> loginStatus(HttpSession session) throws ServletException, IOException {
+    ResultBean<Object> resultBean = new ResultBean<Object>();
     String id = (String) session.getAttribute("loginInfo");
 
     if (id == null) {
-      map.put("status", 0);
-    } else {
-      map.put("status", 1);
+      resultBean.setStatus(1);
     }
-    return map;
+    return resultBean;
   }
 
   @PostMapping(produces = "application/json;charset=UTF-8", value = "logout")

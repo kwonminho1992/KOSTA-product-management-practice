@@ -56,6 +56,7 @@ public class BoardOracleRepository implements BoardRepository {
   @Override
   public List<Board> selectBoardPostsByPage(int currentPage, int cntPerPage) throws FindException {
     SqlSession session = null;
+
     try {
       session = sqlSessionFactory.openSession(); // Connection과 같은 역할을함
       int startRow = (currentPage - 1) * cntPerPage + 1;

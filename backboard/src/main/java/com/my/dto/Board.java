@@ -1,7 +1,6 @@
 package com.my.dto;
 
 import java.util.Date;
-import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -11,7 +10,6 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
-@Component
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
