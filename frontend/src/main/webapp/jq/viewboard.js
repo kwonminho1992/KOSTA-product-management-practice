@@ -2,13 +2,12 @@ $(() => {
   let loginedId = "asd"; //테스트용
 
   //function showList(pageNo){
-  function showBoard(url, data) {
+  function showBoard(url) {
     $.ajax({
       // url: '/backboard/boardlist',
       // data: 'currentPage=' + pageNo,
       url: url,
       method: "get",
-      data: data,
       success: (jsonObj) => {
         if (jsonObj.status == 1) {
           console.log(jsonObj);
@@ -64,7 +63,7 @@ $(() => {
   }
 
   //---페이지 로드되자 마자 게시글1페이지 검색 START---
-  showBoard("/backboard/viewboard", "current_page=1");
+  showBoard("/backboard/board/list/1");
   //---페이지 로드되자 마자 게시글1페이지 검색 END---
 
   //---페이지 그룹의 페이지를 클릭 START---
@@ -82,15 +81,12 @@ $(() => {
       .val()
       .trim();
     let url = "";
-    let data = "";
     if (keyword == "") {
-      url = "/backboard/viewboard";
-      data = "current_page=" + pageNo;
+      url = "/backboard/board/list/" + pageNo;
     } else {
-      url = "/backboard/searchboard";
-      data = "current_page=" + pageNo + "&keyword=" + keyword;
+      url = "/backboard/board/search/" + pageNo + "/" + keyword;
     }
-    showBoard(url, data);
+    showBoard(url);
     return false;
   });
   //---페이지 그룹의 페이지를 클릭 END---
@@ -100,9 +96,8 @@ $(() => {
     let keyword = $("div.search>div.searchInput>input[name=keyword]")
       .val()
       .trim();
-    let url = "/backboard/searchboard";
-    let data = "current_page=1&keyword=" + keyword;
-    showBoard(url, data);
+    let url = "/backboard/board/search/" + keyword + "/1";
+    showBoard(url);
     return false;
   });
   //---검색 클릭 END---
@@ -120,9 +115,8 @@ $(() => {
         let $modifyNremove = $detail.find("div.modifyNremove");
 
         $.ajax({
-          url: "/backboard/viewpost",
+          url: "/backboard/view/" + boardPostNo,
           method: "get",
-          data: "board_post_no=" + boardPostNo,
           success: (jsonObj) => {
             if (jsonObj.status == 1) {
               console.log(jsonObj);
@@ -157,4 +151,125 @@ $(() => {
     }
   );
   //---arrow화살표클릭 END---
+
+  //---수정버튼 클릭 START---
+  $("div.boardlist").on(
+    "click",
+    "div.board div.modifyNremove>button.modify",
+    () => {
+      let boardPostNo = $(this)
+        .parents("div.cell")
+        .find("div.board_post_no")
+        .html();
+      let boardContent = $(this)
+        .parents("div.cell")
+        .find("input.board_content")
+        .val()
+        .trim();
+      if (boardContent == "") {
+        alert("글 내용을 입력하세요.");
+        return false;
+      }
+
+      $.ajax({
+        url: "/backboard/board/" + boardPostNo,
+        method: "PUT",
+        timeout: 0,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          boardPostNo: boardPostNo,
+          boardContent: boardContent,
+        }),
+        success: (jsonObj) => {
+          alert("수정성공");
+        },
+        error: function (jqXHR, textStatus) {
+          alert(
+            "수정 실패. 사유 :" +
+              jqXHR.status +
+              ", jqXHR.responseText:" +
+              jqXHR.responseText
+          );
+        },
+      });
+      return false;
+    }
+  );
+  //---수정버튼 클릭 END---
+
+  //---삭제버튼 클릭 START---
+  $("div.boardlist").on(
+    "click",
+    "div.board div.modifyNremove>button.remove",
+    () => {
+      alert("in 삭제");
+      let boardPostNo = $(this)
+        .parents("div.cell")
+        .find("div.board_post_no")
+        .html();
+      $.ajax({
+        url: "/backboard/board/" + boardPostNo,
+        method: "DELETE",
+        success: () => {
+          location.href = "./viewboard.html";
+        },
+        error: (jqXHR, textStatus) => {
+          alert(
+            "삭제 실패. 사유 :" +
+              jqXHR.status +
+              ", jqXHR.responseText:" +
+              jqXHR.responseText
+          );
+        },
+      });
+      return false;
+    }
+  );
+  //---삭제버튼 클릭 END---
+
+  //--답글저장 버튼 클릭 START --
+  $("div.boardlist").on("click", "div.board div.reply button", () => {
+    let boardParentNo = $(this)
+      .parents("div.cell")
+      .find("div.board_post_no")
+      .html();
+
+    let boardTitle = $(this).siblings("input[name=board_title]").val();
+    let boardContent = $(this).siblings("textarea[name=board_content]").val();
+    alert(
+      "in 답글 부모글번호:" +
+        boardParentNo +
+        ", boardTitle:" +
+        boardTitle +
+        ", boardContent:" +
+        boardContent
+    );
+    $.ajax({
+      url: "/backboard/board/reply/" + boardParentNo,
+      method: "POST",
+      timeout: 0,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify({
+        boardTitle: boardTitle,
+        boardContent: boardContent,
+      }),
+      success: () => {
+        location.href = "./boardlist.html";
+      },
+      error: (jqXHR, textStatus) => {
+        alert(
+          "답글 에러:" +
+            jqXHR.status +
+            ", jqXHR.responseText:" +
+            jqXHR.responseText
+        );
+      },
+    });
+    return false;
+    //---답글저장버튼 클릭 END---
+  });
 });

@@ -181,3 +181,16 @@ div.search div.searchInput a.searchBtn {
   border-radius: 3px;
 }
 /*검색 영역 END*/
+/*답글 영역 START*/
+div.detail > div.reply {
+  width: 100%;
+}
+div.reply input[type="text"],
+div.reply textarea,
+div.reply button {
+  margin: 5px;
+}
+div.reply textarea {
+  resize: none;
+}
+/*답글 영역 END*/
