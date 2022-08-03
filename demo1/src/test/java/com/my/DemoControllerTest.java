@@ -24,7 +24,7 @@ public class DemoControllerTest {
   void testUseRepository() throws Exception {
     MockHttpServletRequestBuilder mockRequestBuilder = MockMvcRequestBuilders.get("/userepository")
         .accept(org.springframework.http.MediaType.APPLICATION_JSON);
-    int expectedCount = 7;
+    int expectedCount = 22;
     ResultActions resultActions = mockMvc.perform(mockRequestBuilder);
     resultActions.andExpect(MockMvcResultMatchers.status().isOk());
     org.hamcrest.Matcher<Integer> matcher;

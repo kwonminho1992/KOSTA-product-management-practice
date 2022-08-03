@@ -25,7 +25,7 @@ public class BoardRepositoryTest {
   @Autowired
   private BoardRepository repository;
 
-  @Test
+  // @Test
   public void testSelectByPage() throws FindException {
     int currentPage = 1; // sample 행수 : 7건, 1페이지3건, 2페이지는3건, 3페이지는 1건
     int cntPerPage = 3;
@@ -39,7 +39,7 @@ public class BoardRepositoryTest {
     }
   }
 
-  @Test
+  // @Test
   public void testSelectCount() throws FindException {
     int expectedCnt = 9;
     int cnt = repository.selectTotalRowNumbersByPage();
@@ -50,7 +50,7 @@ public class BoardRepositoryTest {
     assertEquals(expectedCnt, cnt);
   }
 
-  @Test
+  // @Test
   public void testSelectByWord() throws FindException {
     int expectedSize = 1;// 검색어"1번"의 총행수는 3행이다. 1페이지별 2건씩 보면서 2페이지의 행수를 예상
     String word = "1번";
@@ -60,7 +60,7 @@ public class BoardRepositoryTest {
     assertEquals(expectedSize, list.size());
   }
 
-  @Test
+  // @Test
   public void testSelectByBoardNo() throws FindException {
     String expectedBoardTitle = "3번글";// 검색어"1번"의 총행수는 3행이다. 1페이지별 2건씩 보면서 2페이지의 행수를 예상
     String expectedBoardId = "id1";
@@ -91,7 +91,7 @@ public class BoardRepositoryTest {
     assertEquals(expectedViewcount, b2.getBoardViewcnt());
   }
 
-  @Test
+  // @Test
   public void testUpdateContent() throws FindException, ModifyException {
     // 내용 수정 테스트
     int boardPostNo = 1;
@@ -147,7 +147,7 @@ public class BoardRepositoryTest {
 
   }
 
-  @Test
+  // @Test
   public void testInsertReply() throws AddException, FindException {
     // 답글쓰기용 테스트
     int expectedBoardParentNo = 8;

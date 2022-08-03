@@ -39,6 +39,4 @@ public class DatabaseConfiguration {
         applicationContext.getResource("classpath:/mybatisConfig/mybatis-config.xml"));
     return sqlSessionFactoryBean.getObject();
   }
-
-
 }
