@@ -63,11 +63,11 @@ $(() => {
   }
 
   //---페이지 로드되자 마자 게시글1페이지 검색 START---
-  showBoard("/backboard/board/list/1");
+  showBoard(`${backPath}/board/list/1`);
   //---페이지 로드되자 마자 게시글1페이지 검색 END---
 
   //---페이지 그룹의 페이지를 클릭 START---
-  $("div.pagegroup").on("click", "span:not(.disabled)", function () {
+  $("div.pagegroup").on("click", "span:not(.disabled)", () => {
     // span 태그 중 속성값이 .disabled가 아닌 요소들
     let pageNo = 1;
     if ($(this).hasClass("prev")) {
@@ -82,9 +82,9 @@ $(() => {
       .trim();
     let url = "";
     if (keyword == "") {
-      url = "/backboard/board/list/" + pageNo;
+      url = `${backPath}/board/list/` + pageNo;
     } else {
-      url = "/backboard/board/search/" + pageNo + "/" + keyword;
+      url = `${backPath}/board/search/` + pageNo + "/" + keyword;
     }
     showBoard(url);
     return false;
@@ -96,7 +96,7 @@ $(() => {
     let keyword = $("div.search>div.searchInput>input[name=keyword]")
       .val()
       .trim();
-    let url = "/backboard/board/search/" + keyword + "/1";
+    let url = `${backPath}/board/search/` + keyword + "/1";
     showBoard(url);
     return false;
   });
@@ -115,7 +115,7 @@ $(() => {
         let $modifyNremove = $detail.find("div.modifyNremove");
 
         $.ajax({
-          url: "/backboard/view/" + boardPostNo,
+          url: `${backPath}/view/` + boardPostNo,
           method: "get",
           success: (jsonObj) => {
             if (jsonObj.status == 1) {
@@ -172,7 +172,7 @@ $(() => {
       }
 
       $.ajax({
-        url: "/backboard/board/" + boardPostNo,
+        url: `${backPath}/board/` + boardPostNo,
         method: "PUT",
         timeout: 0,
         headers: {
@@ -185,7 +185,7 @@ $(() => {
         success: (jsonObj) => {
           alert("수정성공");
         },
-        error: function (jqXHR, textStatus) {
+        error: (jqXHR, textStatus) => {
           alert(
             "수정 실패. 사유 :" +
               jqXHR.status +
@@ -210,7 +210,7 @@ $(() => {
         .find("div.board_post_no")
         .html();
       $.ajax({
-        url: "/backboard/board/" + boardPostNo,
+        url: `${backPath}/board/` + boardPostNo,
         method: "DELETE",
         success: () => {
           location.href = "./viewboard.html";
@@ -247,7 +247,7 @@ $(() => {
         boardContent
     );
     $.ajax({
-      url: "/backboard/board/reply/" + boardParentNo,
+      url: `${backPath}/board/reply/` + boardParentNo,
       method: "POST",
       timeout: 0,
       headers: {

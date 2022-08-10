@@ -6,22 +6,26 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import com.my.dto.Product;
+import com.my.dto.ResultBean;
 import com.my.exception.FindException;
 import com.my.service.ProductService;
 
-@Controller
+@RestController
+@RequestMapping("product/*")
 public class ProductController {
   @Autowired
   private ProductService productService;
 
 
-  @PostMapping(produces = "application/json;charset=UTF-8", value = "productlist")
-  public Map<String, Object> productlist() throws ServletException, IOException {
-    Map<String, Object> map = new HashMap<String, Object>();
+  @GetMapping(value = {"productlist"})
+  public ResultBean<List<Product>> productlist() throws ServletException, IOException {
+    ResultBean<List<Product>> resultBean = new ResultBean<List<Product>>();
 
     // business logic 호출
     try {

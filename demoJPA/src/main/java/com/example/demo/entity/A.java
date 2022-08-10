@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +17,8 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "a_table")
+@DynamicInsert // null인 행은 insert하지 않음
+@DynamicUpdate
 @NoArgsConstructor
 @Getter
 @Setter

@@ -1,1 +1,1 @@
-const backPath = "/backboard";
+const backPath = "/backboardboot";

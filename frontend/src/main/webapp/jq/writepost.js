@@ -28,7 +28,7 @@ $(() => {
     let obj2 = formData.get("imageFile");
     console.log(obj2);
     $.ajax({
-      url: "/backboard/write",
+      url: `${backPath}/write`,
       method: "post",
       headers: {
         "Content-Type": "application/json",

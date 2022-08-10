@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
@@ -136,7 +135,7 @@ public class BoardController {
     return resultBean;
   }
 
-  @PostMapping(value = {"write"})
+  @PostMapping(value = "write")
   // ResponseEntity<?> -> 응답코드를 자기가 조절할 수 있음, 다른 return type은 응답코드를 자기가 조절할 수 없음
   // 스프링에서 파일업/다운로드를 하려면 parameter에 @RequestPart Annotation이 필요
   // 응답코드 500 : 파일업로드 실패, 글쓰기 실패
@@ -144,7 +143,7 @@ public class BoardController {
   public ResponseEntity<?> writePost(@RequestPart(required = false) List<MultipartFile> letterFiles,
       @RequestPart(required = false) MultipartFile imageFile, Board board, String greeting,
       // @PathVariable는 폼객체 전달받기에 쓰기엔 부적합
-      HttpSession session, ServletContext servletContext) {
+      HttpSession session) {
     logger.info("요청전달데이터 title=" + board.getBoardTitle() + ", content=" + board.getBoardContent());
     logger.info("letterFiles.size()=" + letterFiles.size());
     logger.info("imageFile.getSize()=" + imageFile.getSize() + ", imageFile.getOriginalFileName()="
@@ -153,7 +152,7 @@ public class BoardController {
     try {
       // String loginedId = (String)session.getAttribute("loginInfo");
       // ---로그인대신할 샘플데이터--
-      String loginedId = "id1";
+      String loginedId = "asd";
       // ----------------------
       board.setBoardId(loginedId);
       boardService.writePost(board);

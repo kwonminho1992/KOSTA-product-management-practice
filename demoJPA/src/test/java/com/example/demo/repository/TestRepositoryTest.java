@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.example.demo.entity.A;
+import com.example.demo.entity.B;
+import com.example.demo.entity.M;
 
 @SpringBootTest
 // @Transactional
@@ -19,6 +21,10 @@ class TestRepositoryTest {
 
   @Autowired
   private TestRepository repository;
+  @Autowired
+  private MRepository mRepository;
+  @Autowired
+  private BRepository bRepository;
   Logger logger = LoggerFactory.getLogger(getClass());
 
   // @Test
@@ -69,9 +75,44 @@ class TestRepositoryTest {
     logger.error("total row : " + number);
   }
 
-  @Test
+  // @Test
   void testFindByA1Like() {
     List<A> list = repository.findAsByA4Like("%tu%");
     logger.error(list.toString());
+  }
+
+  // @Test
+  void testSaveMB() {
+    for (int i = 0; i < 10; i++) {
+      M m = new M();
+      m.setId("id" + i);
+      m.setName("name" + i);
+      m.setRoll("roll" + i);
+      mRepository.save(m); // persist()호출 -> SELECT -> 반환행없음 -> INSERT 구문 실행
+      assertEquals("id" + i, m.getId());
+      B b = new B();
+      b.setTitle("title");
+      b.setM(m);
+      bRepository.save(b); // persist()호출 -> SELECT -> 반환행없음 -> INSERT 구문 실행
+    }
+  }
+
+  @Test
+  void testFindAllMB() {
+    Iterable<M> mlist = mRepository.findAll();
+    logger.error(mlist.toString());
+    Iterable<B> blist = bRepository.findAll();
+    logger.error(blist.toString());
+  }
+
+  @Test
+  void testDeleteAllMB() {
+    bRepository.deleteAll();
+    mRepository.deleteAll();
+    Iterable<M> mlist = mRepository.findAll();
+    logger.error("delete" + mlist.toString());
+    Iterable<B> blist = bRepository.findAll();
+    logger.error("delete" + blist.toString());
+
   }
 }
