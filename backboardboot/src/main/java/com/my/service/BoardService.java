@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.my.dto.Board;
 import com.my.dto.PageBean;
 import com.my.exception.AddException;
@@ -12,7 +13,7 @@ import com.my.exception.FindException;
 import com.my.exception.ModifyException;
 import com.my.repository.BoardRepository;
 
-@Service()
+@Service
 public class BoardService {
   private static final int CNT_PER_PAGE = 3;
   private static final int CNT_PER_PAGE_GROUP = 3;
@@ -70,6 +71,7 @@ public class BoardService {
   }
 
   // 글 삭제
+  @Transactional(rollbackFor = DeleteException.class)
   public void deletePost(Long boardPostNo) throws DeleteException {
     boardRepository.deleteReply(boardPostNo);
     boardRepository.deleteById(boardPostNo);

@@ -24,74 +24,46 @@ public class ProductController {
 
 
   @GetMapping(value = {"productlist"})
-  public Map<String, Object> productlist() throws ServletException, IOException {
+  public Map<String, Object> productlist() throws ServletException, IOException, FindException {
     Map<String, Object> map = new HashMap<String, Object>();
 
     // business logic 호출
-    try {
-      List<Product> products = productService.productlist();
-      map.put("products", products);
-      map.put("status", 1);
-      map.put("message", "productlist 가져오기 성공");
-    } catch (FindException e) {
-      map.put("status", 0);
-      map.put("message", "productlist 가져오기 실패. " + e.getMessage());
-      e.printStackTrace();
-    } catch (Exception e) {
-      map.put("status", 0);
-      map.put("message", "productlist 가져오기 실패. " + e.getMessage());
-      e.printStackTrace();
-    }
+    List<Product> products = productService.productlist();
+    map.put("products", products);
+    map.put("status", 1);
+    map.put("message", "productlist 가져오기 성공");
     return map;
   }
 
   @GetMapping(value = {"viewproduct/{productNo}"})
   public Map<String, Object> viewProduct(@PathVariable String productNo)
-      throws ServletException, IOException {
+      throws ServletException, IOException, FindException {
     Map<String, Object> map = new HashMap<String, Object>();
 
-    try {
-      Product product = productService.viewproduct(productNo);
-      map.put("status", 1);
-      map.put("message", "viewproduct succeed");
-      map.put("product", product);
-    } catch (FindException e) {
-      map.put("status", 0);
-      map.put("message", "viewproduct failed. " + e.getMessage());
-      e.printStackTrace();
-    } catch (Exception e) {
-      map.put("status", 0);
-      map.put("message", "viewproduct failed. " + e.getMessage());
-      e.printStackTrace();
-    }
+    Product product = productService.viewproduct(productNo);
+    map.put("status", 1);
+    map.put("message", "viewproduct succeed");
+    map.put("product", product);
+
     return map;
   }
 
   @GetMapping(value = {"search", "search/{optionalKeyword}"})
   public Map<String, Object> search(
       @RequestParam(name = "keyword", required = true) Optional<String> optionalKeyword)
-      throws ServletException, IOException {
+      throws ServletException, IOException, FindException {
     Map<String, Object> map = new HashMap<String, Object>();
-    try {
-      String keyword;
-      if (optionalKeyword.isPresent()) {
-        keyword = optionalKeyword.get();
-      } else {
-        keyword = "";
-      }
-      List<Product> products = productService.search(keyword);
-      map.put("status", 1);
-      map.put("message", "search succeed");
-      map.put("product", products);
-    } catch (FindException e) {
-      map.put("status", 0);
-      map.put("message", "search failed. " + e.getMessage());
-      e.printStackTrace();
-    } catch (Exception e) {
-      map.put("status", 0);
-      map.put("message", "search failed. " + e.getMessage());
-      e.printStackTrace();
+    String keyword;
+    if (optionalKeyword.isPresent()) {
+      keyword = optionalKeyword.get();
+    } else {
+      keyword = "";
     }
+    List<Product> products = productService.search(keyword);
+    map.put("status", 1);
+    map.put("message", "search succeed");
+    map.put("product", products);
+
     return map;
   }
 }

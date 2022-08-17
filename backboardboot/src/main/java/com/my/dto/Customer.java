@@ -20,9 +20,9 @@ import lombok.Setter;
 @EqualsAndHashCode(of = {"id"})
 public class Customer {
   @Id
-  @Column(name = "id")
+  @Column(name = "id", length = 15)
   private String id;
-  @Column(name = "password")
+  @Column(name = "password", length = 12)
   private String password;
   @Column(name = "name")
   private String name;

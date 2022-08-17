@@ -15,27 +15,16 @@ public class OrderService {
   private OrderInfoRepository orderInfoRepository;
 
   public void addOrder(OrderInfo orderInfo) throws AddException {
-    try {
-      orderInfoRepository.save(orderInfo);
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new AddException("주문추가에 실패하였습니다. 사유 : " + e.getMessage());
-    }
+    orderInfoRepository.save(orderInfo);
   }
 
   public List<OrderInfo> viewOrder(String orderId) throws FindException {
     Customer customer = new Customer();
     customer.setId(orderId);
-    try {
-      List<OrderInfo> orderInfos =
-          (List<OrderInfo>) orderInfoRepository.findAllByCustomer(customer);
-      if (orderInfos.size() == 0 || orderInfos == null) {
-        throw new FindException("주문내역이 없습니다");
-      }
-      return orderInfos;
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new FindException("주문 불러오기에 실패했습니다. 사유 : " + e.getMessage());
+    List<OrderInfo> orderInfos = (List<OrderInfo>) orderInfoRepository.findAllByCustomer(customer);
+    if (orderInfos.size() == 0 || orderInfos == null) {
+      throw new FindException("주문내역이 없습니다");
     }
+    return orderInfos;
   }
 }

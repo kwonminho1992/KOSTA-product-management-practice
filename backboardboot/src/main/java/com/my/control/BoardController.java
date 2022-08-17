@@ -52,28 +52,18 @@ public class BoardController {
 
   @GetMapping(value = {"list", "list/{optionalCurrentPage}"})
   public ResultBean<PageBean<Board>> viewBoard(@PathVariable Optional<Integer> optionalCurrentPage)
-      throws ServletException, IOException {
+      throws ServletException, IOException, FindException {
     ResultBean<PageBean<Board>> resultBean = new ResultBean<PageBean<Board>>();
-    try {
-      int currentPage;
-      if (optionalCurrentPage.isPresent()) {
-        currentPage = optionalCurrentPage.get();
-      } else {
-        currentPage = 1;
-      }
-      PageBean<Board> pageBean = boardService.viewBoard(currentPage);
-      resultBean.setStatus(1);
-      resultBean.setMessage("success to bring the page");
-      resultBean.setT(pageBean);
-    } catch (FindException e) {
-      resultBean.setStatus(0);
-      resultBean.setMessage("failure to bring the page");
-      e.printStackTrace();
-    } catch (Exception e) {
-      resultBean.setStatus(0);
-      resultBean.setMessage("failure to bring the page");
-      e.printStackTrace();
+    int currentPage;
+    if (optionalCurrentPage.isPresent()) {
+      currentPage = optionalCurrentPage.get();
+    } else {
+      currentPage = 1;
     }
+    PageBean<Board> pageBean = boardService.viewBoard(currentPage);
+    resultBean.setStatus(1);
+    resultBean.setMessage("success to bring the page");
+    resultBean.setT(pageBean);
     return resultBean;
   }
 
@@ -81,55 +71,36 @@ public class BoardController {
       "search/{optionalKeyword}/{optionalCurrentPage}"})
   // "search/{optionalCurrentPage}" 는 불가능함 (url상의 중간경로를 건너뛰는건 불가능함)
   public ResultBean<PageBean<Board>> searchBoard(@PathVariable Optional<String> optionalKeyword,
-      @PathVariable Optional<Integer> optionalCurrentPage) throws ServletException, IOException {
+      @PathVariable Optional<Integer> optionalCurrentPage)
+      throws ServletException, IOException, FindException {
     ResultBean<PageBean<Board>> resultBean = new ResultBean<PageBean<Board>>();
-    try {
-      int currentPage;
-      if (optionalCurrentPage.isPresent()) {
-        currentPage = optionalCurrentPage.get();
-      } else {
-        currentPage = 1;
-      }
-      String keyword;
-      if (optionalKeyword.isPresent()) {
-        keyword = optionalKeyword.get();
-      } else {
-        keyword = "";
-      }
-      PageBean<Board> pageBean = boardService.searchBoard(keyword, currentPage);
-      resultBean.setStatus(1);
-      resultBean.setMessage("success to bring the page");
-      resultBean.setT(pageBean);
-    } catch (FindException e) {
-      resultBean.setStatus(0);
-      resultBean.setMessage("failure to bring the page");
-      e.printStackTrace();
-    } catch (Exception e) {
-      resultBean.setStatus(0);
-      resultBean.setMessage("failure to bring the page");
-      e.printStackTrace();
+    int currentPage;
+    if (optionalCurrentPage.isPresent()) {
+      currentPage = optionalCurrentPage.get();
+    } else {
+      currentPage = 1;
     }
+    String keyword;
+    if (optionalKeyword.isPresent()) {
+      keyword = optionalKeyword.get();
+    } else {
+      keyword = "";
+    }
+    PageBean<Board> pageBean = boardService.searchBoard(keyword, currentPage);
+    resultBean.setStatus(1);
+    resultBean.setMessage("success to bring the page");
+    resultBean.setT(pageBean);
     return resultBean;
   }
 
   @GetMapping(value = {"view/{boardPostNo}"})
   public ResultBean<Board> viewPost(@PathVariable Long boardPostNo)
-      throws ServletException, IOException {
+      throws ServletException, IOException, FindException {
     ResultBean<Board> resultBean = new ResultBean<Board>();
-    try {
-      Board board = boardService.viewPost(boardPostNo);
-      resultBean.setStatus(1);
-      resultBean.setMessage("loding succeed.");
-      resultBean.setT(board);
-    } catch (FindException e) {
-      resultBean.setStatus(0);
-      resultBean.setMessage("loding failed.");
-      e.printStackTrace();
-    } catch (Exception e) {
-      resultBean.setStatus(0);
-      resultBean.setMessage("loding failed.");
-      e.printStackTrace();
-    }
+    Board board = boardService.viewPost(boardPostNo);
+    resultBean.setStatus(1);
+    resultBean.setMessage("loding succeed.");
+    resultBean.setT(board);
     return resultBean;
   }
 
@@ -142,16 +113,12 @@ public class BoardController {
       @RequestPart(required = false) MultipartFile imageFile, @RequestBody Board board,
       @RequestPart(required = false) String greeting,
       // @PathVariable는 폼객체 전달받기에 쓰기엔 부적합
-      HttpSession session) {
+      HttpSession session) throws AddException, IOException {
     logger.info(greeting);// 게시글내용 DB에 저장
-    try {
-      String loginedId = (String) session.getAttribute("loginInfo");
-      board.setBoardId(loginedId);
-      boardService.writePost(board);
-    } catch (AddException e1) {
-      e1.printStackTrace();
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    } // //파일 경로 생성
+    String loginedId = (String) session.getAttribute("loginInfo");
+    board.setBoardId(loginedId);
+    boardService.writePost(board);
+    // //파일 경로 생성
     String saveDirectory = "c:\\files";
     if (!new File(saveDirectory).exists()) {
       logger.info("업로드 실제경로생성");
@@ -172,13 +139,8 @@ public class BoardController {
           String letterfileName =
               wroteBoardNo + "_letter_" + UUID.randomUUID() + "_" + letterOriginFileName;
           File savevdLetterFile = new File(saveDirectory, letterfileName);// 파일생성
-          try {
-            FileCopyUtils.copy(letterFile.getBytes(), savevdLetterFile);
-            logger.info("지원서 파일저장:" + savevdLetterFile.getAbsolutePath());
-          } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-          }
+          FileCopyUtils.copy(letterFile.getBytes(), savevdLetterFile);
+          logger.info("지원서 파일저장:" + savevdLetterFile.getAbsolutePath());
           savedletterFileCnt++;
         } // end if(letterFileSize > 0)
       }
@@ -199,52 +161,45 @@ public class BoardController {
           wroteBoardNo + "_image_" + UUID.randomUUID() + "_" + imageOrignFileName;
       // 이미지파일생성
       File savedImageFile = new File(saveDirectory, imageFileName);
-      try {
-        FileCopyUtils.copy(imageFile.getBytes(), savedImageFile);
-        logger.info("이미지 파일저장:" + savedImageFile.getAbsolutePath());
+      FileCopyUtils.copy(imageFile.getBytes(), savedImageFile);
+      logger.info("이미지 파일저장:" + savedImageFile.getAbsolutePath());
 
-        // 파일형식 확인
-        String contentType = imageFile.getContentType();
-        if (!contentType.contains("image/")) { // 이미지파일형식이 아닌 경우
-          return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        // 이미지파일인 경우 섬네일파일을 만듦
-        String thumbnailName = "s_" + imageFileName; // 섬네일 파일명은 s_글번호_XXXX_원본이름
-        thumbnailFile = new File(saveDirectory, thumbnailName);
-        FileOutputStream thumbnailOS;
-        thumbnailOS = new FileOutputStream(thumbnailFile);
-        InputStream imageFileIS = imageFile.getInputStream();
-        int width = 100;
-        int height = 100;
-        Thumbnailator.createThumbnail(imageFileIS, thumbnailOS, width, height);
-        logger.info(
-            "섬네일파일 저장:" + thumbnailFile.getAbsolutePath() + ", 섬네일파일 크기:" + thumbnailFile.length());
-        // 이미지 썸네일다운로드하기
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set(HttpHeaders.CONTENT_LENGTH, thumbnailFile.length() + "");
-        responseHeaders.set(HttpHeaders.CONTENT_TYPE,
-            Files.probeContentType(thumbnailFile.toPath()));
-        responseHeaders.set(HttpHeaders.CONTENT_DISPOSITION,
-            "inline; filename=" + URLEncoder.encode("a", "UTF-8"));
-        logger.info("섬네일파일 다운로드");
-        return new ResponseEntity<>(FileCopyUtils.copyToByteArray(thumbnailFile), responseHeaders,
-            HttpStatus.OK);
-
-      } catch (IOException e2) {
-        e2.printStackTrace();
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      // 파일형식 확인
+      String contentType = imageFile.getContentType();
+      if (!contentType.contains("image/")) { // 이미지파일형식이 아닌 경우
+        return new ResponseEntity<>("적절한 이미지파일 형식이 아닙니다.", HttpStatus.INTERNAL_SERVER_ERROR);
       }
+      // 이미지파일인 경우 섬네일파일을 만듦
+      String thumbnailName = "s_" + imageFileName; // 섬네일 파일명은 s_글번호_XXXX_원본이름
+      thumbnailFile = new File(saveDirectory, thumbnailName);
+      FileOutputStream thumbnailOS;
+      thumbnailOS = new FileOutputStream(thumbnailFile);
+      InputStream imageFileIS = imageFile.getInputStream();
+      int width = 100;
+      int height = 100;
+      Thumbnailator.createThumbnail(imageFileIS, thumbnailOS, width, height);
+      logger.info(
+          "섬네일파일 저장:" + thumbnailFile.getAbsolutePath() + ", 섬네일파일 크기:" + thumbnailFile.length());
+      // 이미지 썸네일다운로드하기
+      HttpHeaders responseHeaders = new HttpHeaders();
+      responseHeaders.set(HttpHeaders.CONTENT_LENGTH, thumbnailFile.length() + "");
+      responseHeaders.set(HttpHeaders.CONTENT_TYPE, Files.probeContentType(thumbnailFile.toPath()));
+      responseHeaders.set(HttpHeaders.CONTENT_DISPOSITION,
+          "inline; filename=" + URLEncoder.encode("a", "UTF-8"));
+      logger.info("섬네일파일 다운로드");
+      return new ResponseEntity<>(FileCopyUtils.copyToByteArray(thumbnailFile), responseHeaders,
+          HttpStatus.OK);
     } // end if(imageFileSize > 0)
     else {
       logger.error("이미지파일이 없습니다");
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>("이미지파일이 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @PostMapping(value = "reply/{boardParentNo}", produces = MediaType.APPLICATION_JSON_VALUE)
   // MediaType은 UTF-8을 지원해주지 않으므로, MIME을 직접 입력하는게 더 좋은 방법임 (* JSON은 예외)
   public ResponseEntity<?> writeReply(@PathVariable Long boardParentNo, @RequestBody Board board,
-      HttpSession session) {
+      HttpSession session) throws AddException {
     if (board.getBoardTitle() == null || board.getBoardTitle().equals("")
         || board.getBoardContent() == null || board.getBoardContent().equals("")) {
       return new ResponseEntity<>("글 제목/내용이 없습니다", HttpStatus.BAD_REQUEST);
@@ -252,54 +207,39 @@ public class BoardController {
     String loginedId = (String) session.getAttribute("loginInfo");
     board.setBoardId(loginedId);
     board.setBoardParentNo(boardParentNo);
-    try {
-      boardService.writeReply(board);
-      return new ResponseEntity<>(HttpStatus.OK);
-    } catch (AddException e) {
-      e.printStackTrace();
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+
+    boardService.writeReply(board);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @PutMapping(value = "{boardPostNo}", produces = MediaType.APPLICATION_JSON_VALUE) // 응답형식 : JSON
   public ResponseEntity<?> modify(@PathVariable Long boardPostNo, @RequestBody Board board,
-      HttpSession session) {
-    try {
-      String loginedId = (String) session.getAttribute("loginInfo");
-      if (board.getBoardTitle() == null || board.getBoardTitle().equals("")
-          || board.getBoardContent() == null || board.getBoardContent().equals("")) {
-        return new ResponseEntity<>("글 내용이 없습니다", HttpStatus.BAD_REQUEST);
-      } else if (!board.getBoardId().equals(loginedId)) {
-        return new ResponseEntity<>("다른 사용자의 글은 수정할 수 없습니다.", HttpStatus.BAD_REQUEST);
-      }
-      boardService.modifyPost(board);
-      return new ResponseEntity<>(HttpStatus.OK);
-    } catch (ModifyException e) {
-      e.printStackTrace();
-      return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+      HttpSession session) throws ModifyException {
+    String loginedId = (String) session.getAttribute("loginInfo");
+    if (board.getBoardTitle() == null || board.getBoardTitle().equals("")
+        || board.getBoardContent() == null || board.getBoardContent().equals("")) {
+      return new ResponseEntity<>("글 내용이 없습니다", HttpStatus.BAD_REQUEST);
+    } else if (!board.getBoardId().equals(loginedId)) {
+      return new ResponseEntity<>("다른 사용자의 글은 수정할 수 없습니다.", HttpStatus.BAD_REQUEST);
     }
+    boardService.modifyPost(board);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @DeleteMapping(value = "{boardPostNo}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> remove(@PathVariable Long boardPostNo, HttpSession session) {
-    try {
-      String loginedId = (String) session.getAttribute("loginInfo");
-      Board board = null;
-      try {
-        board = boardService.viewPost(boardPostNo);
-      } catch (FindException e) {
-        e.printStackTrace();
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-      }
-      String idInBoard = board.getBoardId();
-      if (loginedId.equals(idInBoard)) {
-        boardService.deletePost(boardPostNo);
-        return new ResponseEntity<>(HttpStatus.OK);
-      }
-      return new ResponseEntity<>("ID가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
-    } catch (DeleteException e) {
-      e.printStackTrace();
-      return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+  public ResponseEntity<String> remove(@PathVariable Long boardPostNo, HttpSession session)
+      throws DeleteException, FindException {
+    String loginedId = (String) session.getAttribute("loginInfo");
+    Board board = null;
+
+    board = boardService.viewPost(boardPostNo);
+
+    String idInBoard = board.getBoardId();
+    if (loginedId.equals(idInBoard)) {
+      boardService.deletePost(boardPostNo);
+      return new ResponseEntity<>(HttpStatus.OK);
     }
+    return new ResponseEntity<>("ID가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
+
   }
 }

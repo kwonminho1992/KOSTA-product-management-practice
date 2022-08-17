@@ -19,10 +19,10 @@ public class CustomerService {
 
   public Customer idDuplicationCheck(String id) throws FindException {
     Optional<Customer> customerOptional = customerRepository.findById(id);
-    if (customerOptional.isPresent()) {
-      return customerOptional.get();
+    if (!customerOptional.isPresent()) {
+      return null;
     }
-    throw new FindException("없는 id입니다.");
+    throw new FindException("이미 사용중인 id입니다.");
   }
 
   public Customer login(String id, String password) throws FindException {
